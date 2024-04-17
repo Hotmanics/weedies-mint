@@ -1,46 +1,45 @@
-import { getFrameMetadata } from '@coinbase/onchainkit/frame';
-import type { Metadata } from 'next';
-import { NEXT_PUBLIC_URL } from './config';
+import { NextServerPageProps } from "frames.js/next/server";
+import Link from "next/link";
+import { currentURL } from "./utils";
 
-const frameMetadata = getFrameMetadata({
-  buttons: [
-    {
-      label: 'Story time',
-    },
-    {
-      action: 'tx',
-      label: 'Send Base Sepolia',
-      target: `${NEXT_PUBLIC_URL}/api/tx`,
-      postUrl: `${NEXT_PUBLIC_URL}/api/tx-success`,
-    },
-  ],
-  image: {
-    src: `${NEXT_PUBLIC_URL}/park-3.png`,
-    aspectRatio: '1:1',
-  },
-  input: {
-    text: 'Tell me a story',
-  },
-  postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
-});
-
-export const metadata: Metadata = {
-  title: 'zizzamia.xyz',
-  description: 'LFG',
-  openGraph: {
-    title: 'zizzamia.xyz',
-    description: 'LFG',
-    images: [`${NEXT_PUBLIC_URL}/park-1.png`],
-  },
-  other: {
-    ...frameMetadata,
-  },
+type State = {
+  active: string;
+  total_button_presses: number;
 };
 
-export default function Page() {
+import { fetchMetadata } from "frames.js/next";
+import type { Metadata } from "next";
+import { createDebugUrl } from "./debug";
+import { vercelURL } from "./utils";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "frames.js starter",
+    description: "This is a frames.js starter template",
+    other: {
+      ...(await fetchMetadata(
+        new URL("/frames", vercelURL() || "http://localhost:3000")
+      )),
+    },
+  };
+}
+
+// This is a react server component only
+export default async function Home({ searchParams }: NextServerPageProps) {
+  const url = currentURL("/");
+
+  // then, when done, return next frame
   return (
-    <>
-      <h1>zizzamia.xyz</h1>
-    </>
+    <div className="p-4">
+      frames.js starter kit. The Template Frame is on this page, it&apos;s in
+      the html meta tags (inspect source).{" "}
+      <Link href={createDebugUrl(url)} className="underline">
+        Debug
+      </Link>{" "}
+      or see{" "}
+      <Link href="/examples" className="underline">
+        other examples
+      </Link>
+    </div>
   );
 }
