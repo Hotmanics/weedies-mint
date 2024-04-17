@@ -8,7 +8,7 @@ import {
   getContract,
   http,
 } from "viem";
-import { optimism } from "viem/chains";
+import { optimism, base } from "viem/chains";
 import { storageRegistryABI } from "./contracts/storage-registry";
 
 export async function POST(
@@ -32,7 +32,7 @@ export async function POST(
   });
 
   const publicClient = createPublicClient({
-    chain: optimism,
+    chain: base,
     transport: http(),
   });
 
