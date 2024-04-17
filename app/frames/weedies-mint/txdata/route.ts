@@ -44,6 +44,7 @@ export async function POST(
     client: publicClient,
   });
 
+  //
   const mintPrice = await storageRegistry.read.getMintPrice();
 
   return NextResponse.json({
