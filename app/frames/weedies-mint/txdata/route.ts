@@ -28,7 +28,7 @@ export async function POST(
   const calldata = encodeFunctionData({
     abi: storageRegistryABI,
     functionName: "mint",
-    args: [frameMessage.requesterFid, BigInt(1)],
+    args: ["0x3bEc6a181d6Ef7239F699DAf2fAa5FE3A5f01Edf", BigInt(1)],
   });
 
   const publicClient = createPublicClient({
@@ -44,7 +44,7 @@ export async function POST(
     client: publicClient,
   });
 
-  const unitPrice = await storageRegistry.read.price([units]);
+  const mintPrice = await storageRegistry.read.getMintPrice();
 
   return NextResponse.json({
     chainId: "eip155:10", // OP Mainnet 10
@@ -53,7 +53,7 @@ export async function POST(
       abi: storageRegistryABI as Abi,
       to: STORAGE_REGISTRY_ADDRESS,
       data: calldata,
-      value: unitPrice.toString(),
+      value: mintPrice.toString(),
     },
   });
 }
