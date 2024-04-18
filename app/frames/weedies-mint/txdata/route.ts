@@ -9,8 +9,7 @@ import {
   http,
 } from "viem";
 import { base } from "viem/chains";
-import { abi } from "./contracts/storage-registry";
-
+import { address, abi } from "./contracts/storage-registry";
 export async function POST(
   req: NextRequest
 ): Promise<NextResponse<TransactionTargetResponse>> {
@@ -27,10 +26,8 @@ export async function POST(
     transport: http(),
   });
 
-  const STORAGE_REGISTRY_ADDRESS = "0x464742b62594b18097B7Dc1e4B4EDB512D114F2E";
-
   const storageRegistry = getContract({
-    address: STORAGE_REGISTRY_ADDRESS,
+    address: address,
     abi,
     client: publicClient,
   });
@@ -49,7 +46,7 @@ export async function POST(
     method: "eth_sendTransaction",
     params: {
       abi,
-      to: STORAGE_REGISTRY_ADDRESS,
+      to: address,
       data: calldata,
       value: mintPrice.toString(),
     },

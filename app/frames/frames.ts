@@ -1,10 +1,10 @@
 import { createFrames } from "frames.js/next";
 
 type State = {
-  counter: number;
+  mintCount: number;
 };
 
 export const frames = createFrames<State>({
   basePath: "/frames",
-  initialState: { counter: 0 },
+  initialState: { mintCount: 0 },
 });

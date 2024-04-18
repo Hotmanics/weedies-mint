@@ -1,4 +1,4 @@
-export const address = "0x464742b62594b18097B7Dc1e4B4EDB512D114F2E";
+export const address = "0xC4a7fF5D79d04267F610Bb5152B34Cce99277502";
 export const abi = [
   {
     inputs: [
@@ -127,6 +127,13 @@ export const abi = [
     inputs: [{ internalType: "uint256", name: "tokenId", type: "uint256" }],
     name: "getApproved",
     outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getMintCount",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
