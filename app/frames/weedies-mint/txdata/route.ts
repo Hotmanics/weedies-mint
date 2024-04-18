@@ -9,7 +9,7 @@ import {
   http,
 } from "viem";
 import { base } from "viem/chains";
-import { storageRegistryABI } from "./contracts/storage-registry";
+import { abi } from "./contracts/storage-registry";
 
 export async function POST(
   req: NextRequest
@@ -31,7 +31,7 @@ export async function POST(
 
   const storageRegistry = getContract({
     address: STORAGE_REGISTRY_ADDRESS,
-    abi: storageRegistryABI,
+    abi,
     client: publicClient,
   });
 
@@ -39,7 +39,7 @@ export async function POST(
   const mintPrice = 0; //= await storageRegistry.read.getMintPrice();
 
   const calldata = encodeFunctionData({
-    abi: storageRegistryABI,
+    abi,
     functionName: "mint",
     args: [json.untrustedData.address, BigInt(1)],
   });
@@ -48,7 +48,7 @@ export async function POST(
     chainId: "eip155:8453", // OP Mainnet 10
     method: "eth_sendTransaction",
     params: {
-      abi: storageRegistryABI as Abi,
+      abi,
       to: STORAGE_REGISTRY_ADDRESS,
       data: calldata,
       value: mintPrice.toString(),

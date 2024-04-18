@@ -1,4 +1,5 @@
-export const storageRegistryABI = [
+export const address = "0x464742b62594b18097B7Dc1e4B4EDB512D114F2E";
+export const abi = [
   {
     inputs: [
       { internalType: "address", name: "royaltyReceiver", type: "address" },
