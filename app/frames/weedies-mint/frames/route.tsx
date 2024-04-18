@@ -5,7 +5,6 @@ import { frames } from "./frames";
 import {
   checkIfMintComplete,
   getMintCount,
-  getNftMetadata,
   getNftMetadatas,
 } from "../../nftFunctions";
 
@@ -19,7 +18,6 @@ const handleRequest = frames(async (ctx) => {
 
     if (receipt.status === "success") {
       const mintCount = await getMintCount();
-      console.log(mintCount);
 
       const jsons = await getNftMetadatas(
         Number(startMintCount) + 1,
@@ -60,8 +58,17 @@ const handleRequest = frames(async (ctx) => {
           aspectRatio: "1:1",
         },
         buttons: [
-          <Button action="link" target={`https://basescan.org/tx`}>
+          <Button
+            action="link"
+            target={`https://basescan.org/tx/${ctx.message.transactionId}`}
+          >
             View on block explorer
+          </Button>,
+          <Button
+            action="link"
+            target={`https://opensea.io/collection/test-5606`}
+          >
+            View on OpenSea
           </Button>,
         ],
       };

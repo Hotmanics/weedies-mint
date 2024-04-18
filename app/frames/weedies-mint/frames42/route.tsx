@@ -44,8 +44,17 @@ const handleRequest = frames(async (ctx) => {
           aspectRatio: "1:1",
         },
         buttons: [
-          <Button action="link" target={`https://basescan.org/tx`}>
+          <Button
+            action="link"
+            target={`https://basescan.org/tx/${ctx.message.transactionId}`}
+          >
             View on block explorer
+          </Button>,
+          <Button
+            action="link"
+            target={`https://opensea.io/collection/test-5606`}
+          >
+            View on OpenSea
           </Button>,
         ],
       };

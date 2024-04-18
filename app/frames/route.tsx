@@ -5,7 +5,7 @@ import { frames } from "./frames";
 const frameHandler = frames(async (ctx) => {
   return {
     image: (
-      <div tw="bg-purple-800 text-white w-full h-full justify-center items-center text-8xl">
+      <div tw="bg-[#4ed904] text-white w-full h-full justify-center items-center text-8xl">
         Mint A Weedie
       </div>
     ),
