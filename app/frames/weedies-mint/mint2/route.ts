@@ -1,15 +1,9 @@
 import { TransactionTargetResponse } from "frames.js";
 import { getFrameMessage } from "frames.js/next/server";
 import { NextRequest, NextResponse } from "next/server";
-import {
-  Abi,
-  createPublicClient,
-  encodeFunctionData,
-  getContract,
-  http,
-} from "viem";
-import { base } from "viem/chains";
-import { address, abi } from "./contracts/storage-registry";
+import { encodeFunctionData } from "viem";
+import { address, abi } from "../../smartContract";
+import { getMintPrice } from "../../nftFunctions";
 export async function POST(
   req: NextRequest
 ): Promise<NextResponse<TransactionTargetResponse>> {
@@ -21,24 +15,14 @@ export async function POST(
     throw new Error("No frame message");
   }
 
-  const publicClient = createPublicClient({
-    chain: base,
-    transport: http(),
-  });
+  let amountToMint = 2;
 
-  const storageRegistry = getContract({
-    address: address,
-    abi,
-    client: publicClient,
-  });
-
-  //
-  const mintPrice = 0; //= await storageRegistry.read.getMintPrice();
+  const mintPrice = Number(await getMintPrice()) * amountToMint;
 
   const calldata = encodeFunctionData({
     abi,
     functionName: "mint",
-    args: [json.untrustedData.address, BigInt(1)],
+    args: [json.untrustedData.address, BigInt(amountToMint)],
   });
 
   return NextResponse.json({

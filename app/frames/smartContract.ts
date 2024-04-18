@@ -1,4 +1,4 @@
-export const address = "0xC4a7fF5D79d04267F610Bb5152B34Cce99277502";
+export const address = "0xf98C3bCDc8E6612C38B6Db2e7671fAFae56F2107";
 export const abi = [
   {
     inputs: [
@@ -133,6 +133,13 @@ export const abi = [
   {
     inputs: [],
     name: "getMintCount",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getMintPrice",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",

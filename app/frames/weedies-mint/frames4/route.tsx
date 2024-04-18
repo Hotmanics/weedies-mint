@@ -28,31 +28,15 @@ const handleRequest = frames(async (ctx) => {
 
       let jsonComponents = jsons.map((json: any, index: number) => {
         return (
-          <div key={index} tw="flex flex-col justify-center items-center">
-            <img src={json.image} tw="w-[720px] h-[720px]" />
-            <p tw="text-center">{json.name}</p>
-            <div tw="flex flex-wrap items-center justify-center">
-              {json.attributes.map((attribute: any, index: number) => {
-                return (
-                  <div
-                    key={index}
-                    tw="flex space-x-5 bg-[#033900] rounded-lg mx-1 my-1"
-                  >
-                    <p tw="text-3xl text-yellow-500 px-1 my-1">
-                      {attribute["trait_type"]}:
-                    </p>
-                    <p tw="text-3xl px-1 my-1">{attribute["value"]}</p>
-                  </div>
-                );
-              })}
-            </div>
+          <div key={index} tw="flex flex-col justify-center items-center m-1">
+            <img src={json.image} tw="w-[512px] h-[512px]" />
           </div>
         );
       });
 
       return {
         image: (
-          <div tw="bg-[#4ed904] text-white w-full h-full justify-center items-center flex">
+          <div tw="bg-[#4ed904] text-white w-full h-full justify-center items-center flex flex-wrap">
             {jsonComponents}
           </div>
         ),
