@@ -8,7 +8,7 @@ import {
   getContract,
   http,
 } from "viem";
-import { optimism, base } from "viem/chains";
+import { base } from "viem/chains";
 import { storageRegistryABI } from "./contracts/storage-registry";
 
 export async function POST(
@@ -22,21 +22,12 @@ export async function POST(
     throw new Error("No frame message");
   }
 
-  // Get current storage price
-  const units = 1n;
-
-  const calldata = encodeFunctionData({
-    abi: storageRegistryABI,
-    functionName: "mint",
-    args: ["0x3bEc6a181d6Ef7239F699DAf2fAa5FE3A5f01Edf", BigInt(1)],
-  });
-
   const publicClient = createPublicClient({
     chain: base,
     transport: http(),
   });
 
-  const STORAGE_REGISTRY_ADDRESS = "0x00000000fcCe7f938e7aE6D3c335bD6a1a7c593D";
+  const STORAGE_REGISTRY_ADDRESS = "0x464742b62594b18097B7Dc1e4B4EDB512D114F2E";
 
   const storageRegistry = getContract({
     address: STORAGE_REGISTRY_ADDRESS,
@@ -45,10 +36,16 @@ export async function POST(
   });
 
   //
-  const mintPrice = await storageRegistry.read.getMintPrice();
+  const mintPrice = 0; //= await storageRegistry.read.getMintPrice();
+
+  const calldata = encodeFunctionData({
+    abi: storageRegistryABI,
+    functionName: "mint",
+    args: [json.untrustedData.address, BigInt(1)],
+  });
 
   return NextResponse.json({
-    chainId: "eip155:10", // OP Mainnet 10
+    chainId: "eip155:8453", // OP Mainnet 10
     method: "eth_sendTransaction",
     params: {
       abi: storageRegistryABI as Abi,

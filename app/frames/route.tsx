@@ -3,6 +3,10 @@ import { Button } from "frames.js/next";
 import { frames } from "./frames";
 
 const frameHandler = frames(async (ctx) => {
+  const userAddress = ctx?.message?.connectedAddress;
+
+  // console.log(userAddress);
+
   return {
     image: (
       <div tw="bg-purple-800 text-white w-full h-full justify-center items-center text-8xl">
@@ -14,19 +18,30 @@ const frameHandler = frames(async (ctx) => {
     },
     buttons: [
       <Button
-        action="post"
-        target={{
-          pathname: "../examples/new-api-transaction/frames",
-          query: { op: "+" },
-        }}
+        action="tx"
+        target="./weedies-mint/txdata/"
+        post_url="./weedies-mint/frames/"
       >
-        Increment
+        Mint
       </Button>,
-
-      // <Button action="tx" target="/txdata" post_url="/frames">
-      //   Mint
-      // </Button>,
     ],
+
+    // buttons: [
+
+    //   <Button
+    //     action="post"
+    //     target={{
+    //       pathname: "./weedies-mint/frames/",
+    //       query: { op: "+" },
+    //     }}
+    //   >
+    //     Mint
+    //   </Button>,
+
+    //   // <Button action="tx" target="/txdata" post_url="/frames">
+    //   //   Mint
+    //   // </Button>,
+    // ],
   };
 });
 
