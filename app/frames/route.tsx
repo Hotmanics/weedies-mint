@@ -20,19 +20,27 @@ const frameHandler = frames(async (ctx) => {
       >
         Mint 1
       </Button>,
+
       <Button
         action="tx"
-        target="./weedies-mint/mint2/"
-        post_url="./weedies-mint/frames2/"
+        target="./weedies-mint/mint10/"
+        post_url="./weedies-mint/frames10/"
       >
-        Mint 2
+        Mint 10
       </Button>,
       <Button
         action="tx"
-        target="./weedies-mint/mint4/"
-        post_url="./weedies-mint/frames4/"
+        target="./weedies-mint/mint42/"
+        post_url="./weedies-mint/frames42/"
       >
-        Mint 4
+        Mint 42
+      </Button>,
+      <Button
+        action="tx"
+        target="./weedies-mint/mint420/"
+        post_url="./weedies-mint/frames420/"
+      >
+        Mint 420
       </Button>,
     ],
   };

@@ -29,8 +29,7 @@ const handleRequest = frames(async (ctx) => {
       let jsonComponents = jsons.map((json: any, index: number) => {
         return (
           <div key={index} tw="flex flex-col justify-center items-center m-1">
-            <img src={json.image} tw="w-[512px] h-[512px]" />
-            <p tw="text-center">{json.name}</p>
+            <img src={json.image} tw="w-[256px] h-[256px]" />
           </div>
         );
       });
