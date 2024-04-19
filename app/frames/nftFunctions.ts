@@ -97,6 +97,7 @@ export async function getNftMetadatas(
 
   let jsons = [];
 
+  isCached = false;
   for (let i = startIndex; i <= endIndex; i++) {
     let j: any = {};
 
