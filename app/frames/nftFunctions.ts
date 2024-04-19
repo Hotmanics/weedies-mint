@@ -13,6 +13,16 @@ export async function checkIfMintComplete(hash: `0x${string}`) {
   return transaction;
 }
 
+export async function checkTransaction(hash: `0x${string}`) {
+  const publicClient = createPublicClient({
+    chain: base,
+    transport: http(),
+  });
+
+  const transaction = await publicClient.getTransaction({ hash });
+  return transaction;
+}
+
 export async function getMintPrice() {
   const publicClient = createPublicClient({
     chain: base,
@@ -97,37 +107,28 @@ export async function getNftMetadatas(
 
   let jsons = [];
 
-  isCached = false;
   for (let i = startIndex; i <= endIndex; i++) {
     let j: any = {};
 
-    if (!isCached) {
-      let tokenURI = "";
-      try {
-        tokenURI = (await publicClient.readContract({
-          address: address as `0x${string}`,
-          abi,
-          functionName: "tokenURI",
-          args: [BigInt(i)],
-        })) as string;
-      } catch (err) {
-        console.error(err);
-      }
-      tokenURI = tokenURI.replace("ipfs://", "https://nftstorage.link/ipfs/");
-
-      let result = await fetch(tokenURI);
-      let json = await result.json();
-
-      json.image = json.image.replace(
-        "ipfs://",
-        "https://nftstorage.link/ipfs/"
-      );
-
-      j = json;
-    } else {
-      j.image = vercelURL() || "http://localhost:3000" + "/art/" + i + ".png";
+    let tokenURI = "";
+    try {
+      tokenURI = (await publicClient.readContract({
+        address: address as `0x${string}`,
+        abi,
+        functionName: "tokenURI",
+        args: [BigInt(i)],
+      })) as string;
+    } catch (err) {
+      console.error(err);
     }
+    tokenURI = tokenURI.replace("ipfs://", "https://nftstorage.link/ipfs/");
 
+    let result = await fetch(tokenURI);
+    let json = await result.json();
+
+    json.image = json.image.replace("ipfs://", "https://nftstorage.link/ipfs/");
+
+    j = json;
     jsons.push(j);
   }
 
