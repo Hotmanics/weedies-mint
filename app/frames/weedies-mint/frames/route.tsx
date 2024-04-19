@@ -2,62 +2,19 @@
 import { Button } from "frames.js/next";
 import { frames } from "../../frames";
 
-import {
-  checkTransaction,
-  getMintCount,
-  getNftMetadatas,
-} from "../../nftFunctions";
+import { getNftMetadatas } from "../../nftFunctions";
+import { waitForTransaction } from "../transactionLoader";
+import { grabHashFromContext } from "../utils";
+import { getMintPageRoute } from "../getMintPageRoute";
 
 const handleRequest = frames(async (ctx) => {
-  let theHash: `0x${string}` = "0x";
-
-  if (ctx.message?.transactionId) theHash = ctx.message?.transactionId;
-  else theHash = ctx.state.hash;
-
-  try {
-    await checkTransaction(theHash);
-  } catch (e: any) {
-    if (
-      e.message ===
-      `Transaction with hash \"${ctx.message?.transactionId}\" could not be found.\n\nVersion: viem@2.9.20`
-    ) {
-      let state = ctx.state;
-      const startMintCount = await getMintCount();
-      console.log(startMintCount);
-
-      state = {
-        ...state,
-        hash: theHash,
-        startMintCount: Number(startMintCount),
-      };
-
-      return {
-        image: (
-          <div tw="bg-[#4ed904] text-white w-full h-full justify-center items-center flex">
-            {"Waiting for transaction..."}
-          </div>
-        ),
-        imageOptions: {
-          aspectRatio: "1:1",
-        },
-        buttons: [
-          <Button action="link" target={`https://basescan.org/tx/${theHash}`}>
-            View on block explorer
-          </Button>,
-          <Button action="post" target={`./weedies-mint/frames/`}>
-            Refresh
-          </Button>,
-        ],
-        state,
-      };
-    }
-  }
-
-  const mintCount = await getMintCount();
+  const theHash = grabHashFromContext(ctx);
+  let result = await waitForTransaction(ctx, theHash);
+  if (result) return result as any;
 
   const jsons = await getNftMetadatas(
     Number(ctx.state.startMintCount) + 1,
-    Number(mintCount)
+    Number(ctx.state.startMintCount) + 1
   );
 
   let jsonComponents = jsons.map((json: any, index: number) => {
@@ -84,24 +41,7 @@ const handleRequest = frames(async (ctx) => {
     );
   });
 
-  return {
-    image: (
-      <div tw="bg-[#4ed904] text-white w-full h-full justify-center items-center flex">
-        {jsonComponents}
-      </div>
-    ),
-    imageOptions: {
-      aspectRatio: "1:1",
-    },
-    buttons: [
-      <Button action="link" target={`https://basescan.org/tx/${theHash}`}>
-        View on block explorer
-      </Button>,
-      <Button action="link" target={`https://opensea.io/collection/test-5606`}>
-        View on OpenSea
-      </Button>,
-    ],
-  };
+  return getMintPageRoute(theHash, jsonComponents);
 });
 
 export const GET = handleRequest;
