@@ -1,6 +1,7 @@
 import { createPublicClient, http } from "viem";
 import { address, abi } from "./smartContract";
 import { base } from "viem/chains";
+import { vercelURL } from "../utils";
 
 export async function checkIfMintComplete(hash: `0x${string}`) {
   const publicClient = createPublicClient({
@@ -84,7 +85,11 @@ export async function getNftMetadata(tokenId: bigint) {
   return jsons;
 }
 
-export async function getNftMetadatas(startIndex: number, endIndex: number) {
+export async function getNftMetadatas(
+  startIndex: number,
+  endIndex: number,
+  isCached: boolean = false
+) {
   const publicClient = createPublicClient({
     chain: base,
     transport: http(),
@@ -93,26 +98,36 @@ export async function getNftMetadatas(startIndex: number, endIndex: number) {
   let jsons = [];
 
   for (let i = startIndex; i <= endIndex; i++) {
-    let tokenURI = "";
-    try {
-      tokenURI = (await publicClient.readContract({
-        address: address as `0x${string}`,
-        abi,
-        functionName: "tokenURI",
-        args: [BigInt(i)],
-      })) as string;
-    } catch (err) {
-      console.error(err);
+    let j: any = {};
+
+    if (!isCached) {
+      let tokenURI = "";
+      try {
+        tokenURI = (await publicClient.readContract({
+          address: address as `0x${string}`,
+          abi,
+          functionName: "tokenURI",
+          args: [BigInt(i)],
+        })) as string;
+      } catch (err) {
+        console.error(err);
+      }
+      tokenURI = tokenURI.replace("ipfs://", "https://nftstorage.link/ipfs/");
+
+      let result = await fetch(tokenURI);
+      let json = await result.json();
+
+      json.image = json.image.replace(
+        "ipfs://",
+        "https://nftstorage.link/ipfs/"
+      );
+
+      j = json;
+    } else {
+      j.image = vercelURL() || "http://localhost:3000" + "/art/" + i + ".png";
     }
 
-    tokenURI = tokenURI.replace("ipfs://", "https://nftstorage.link/ipfs/");
-
-    let result = await fetch(tokenURI);
-    let json = await result.json();
-
-    json.image = json.image.replace("ipfs://", "https://nftstorage.link/ipfs/");
-
-    jsons.push(json);
+    jsons.push(j);
   }
 
   return jsons;

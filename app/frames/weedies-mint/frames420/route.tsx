@@ -23,7 +23,8 @@ const handleRequest = frames(async (ctx) => {
 
       const jsons = await getNftMetadatas(
         Number(startMintCount) + 1,
-        Number(startMintCount) + 42
+        Number(startMintCount) + 42,
+        true
       );
 
       let jsonComponents = jsons.map((json: any, index: number) => {

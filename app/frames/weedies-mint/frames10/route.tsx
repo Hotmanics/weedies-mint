@@ -23,13 +23,14 @@ const handleRequest = frames(async (ctx) => {
 
       const jsons = await getNftMetadatas(
         Number(startMintCount) + 1,
-        Number(mintCount)
+        Number(mintCount),
+        true
       );
 
       let jsonComponents = jsons.map((json: any, index: number) => {
         return (
           <div key={index} tw="flex flex-col justify-center items-center m-1">
-            <img src={json.image} tw="w-[256px] h-[256px]" />
+            <img src={json.image} tw="w-[281px] h-[281px]" />
           </div>
         );
       });

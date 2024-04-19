@@ -13,6 +13,8 @@ import { createDebugUrl } from "./debug";
 import { vercelURL } from "./utils";
 
 export async function generateMetadata(): Promise<Metadata> {
+  console.log(vercelURL());
+
   return {
     title: "frames.js starter",
     description: "This is a frames.js starter template",

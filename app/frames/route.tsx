@@ -1,14 +1,10 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
 import { frames } from "./frames";
-
+import { vercelURL } from "../utils";
 const frameHandler = frames(async (ctx) => {
   return {
-    image: (
-      <div tw="bg-[#4ed904] text-white w-full h-full justify-center items-center text-8xl">
-        Mint A Weedie
-      </div>
-    ),
+    image: vercelURL() || "http://localhost:3000" + "/frame-cover.jpg",
     imageOptions: {
       aspectRatio: "1:1",
     },
@@ -30,10 +26,10 @@ const frameHandler = frames(async (ctx) => {
       </Button>,
       <Button
         action="tx"
-        target="./weedies-mint/mint42/"
-        post_url="./weedies-mint/frames42/"
+        target="./weedies-mint/mint69/"
+        post_url="./weedies-mint/frames69/"
       >
-        Mint 42
+        Mint 69
       </Button>,
       <Button
         action="tx"
