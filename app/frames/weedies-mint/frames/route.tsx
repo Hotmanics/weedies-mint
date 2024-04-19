@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-key */
-import { Button } from "frames.js/next";
 import { frames } from "../../frames";
 
 import { getNftMetadatas } from "../../nftFunctions";
@@ -9,7 +8,7 @@ import { getMintPageRoute } from "../getMintPageRoute";
 
 const handleRequest = frames(async (ctx) => {
   const theHash = grabHashFromContext(ctx);
-  let result = await waitForTransaction(ctx, theHash);
+  let result = await waitForTransaction(ctx, theHash, `./weedies-mint/frames/`);
   if (result) return result as any;
 
   const jsons = await getNftMetadatas(

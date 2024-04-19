@@ -121,7 +121,13 @@ export async function getNftMetadatas(
     } catch (err) {
       console.error(err);
     }
+
+    tokenURI =
+      "ipfs://bafybeicpvzgkhgyhwggrtctzvztuk2mftmt56xogv6pi7mx2v42go35ltu/" + i;
+
     tokenURI = tokenURI.replace("ipfs://", "https://nftstorage.link/ipfs/");
+
+    console.log(tokenURI);
 
     let result = await fetch(tokenURI);
     let json = await result.json();

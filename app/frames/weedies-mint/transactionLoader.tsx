@@ -1,7 +1,11 @@
 import { checkTransaction, getMintCount } from "../nftFunctions";
 import { Button } from "frames.js/next";
 
-export async function waitForTransaction(ctx: any, theHash: `0x${string}`) {
+export async function waitForTransaction(
+  ctx: any,
+  theHash: `0x${string}`,
+  refreshTarget: string
+) {
   try {
     await checkTransaction(theHash);
   } catch (e: any) {
@@ -32,7 +36,7 @@ export async function waitForTransaction(ctx: any, theHash: `0x${string}`) {
           <Button action="link" target={`https://basescan.org/tx/${theHash}`}>
             View on block explorer
           </Button>,
-          <Button action="post" target={`./weedies-mint/frames/`}>
+          <Button action="post" target={refreshTarget}>
             Refresh
           </Button>,
         ],
