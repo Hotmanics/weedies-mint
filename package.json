@@ -13,6 +13,7 @@
   "dependencies": {
     "@vercel/kv": "^1.0.1",
     "@xmtp/frames-validator": "^0.5.0",
+    "alchemy-sdk": "^3.2.1",
     "clsx": "^2.1.0",
     "frames.js": "^0.13.2",
     "next": "^14.1.0",

@@ -110,32 +110,38 @@ export async function getNftMetadatas(
   for (let i = startIndex; i <= endIndex; i++) {
     let j: any = {};
 
-    // let tokenURI = "";
-    // try {
-    //   tokenURI = (await publicClient.readContract({
-    //     address: address as `0x${string}`,
-    //     abi,
-    //     functionName: "tokenURI",
-    //     args: [BigInt(i)],
-    //   })) as string;
-    // } catch (err) {
-    //   console.error(err);
-    // }
+    if (!isCached) {
+      let tokenURI = "";
+      try {
+        tokenURI = (await publicClient.readContract({
+          address: address as `0x${string}`,
+          abi,
+          functionName: "tokenURI",
+          args: [BigInt(i)],
+        })) as string;
+      } catch (err) {
+        console.error(err);
+      }
 
-    // tokenURI =
-    //   "ipfs://bafybeicpvzgkhgyhwggrtctzvztuk2mftmt56xogv6pi7mx2v42go35ltu/" + i;
+      tokenURI =
+        "ipfs://bafybeicpvzgkhgyhwggrtctzvztuk2mftmt56xogv6pi7mx2v42go35ltu/" +
+        i;
 
-    // tokenURI = tokenURI.replace("ipfs://", "https://nftstorage.link/ipfs/");
+      tokenURI = tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/");
 
-    // console.log(tokenURI);
+      console.log(tokenURI);
 
-    // let result = await fetch(tokenURI);
-    // let json = await result.json();
+      let result = await fetch(tokenURI);
+      let json = await result.json();
 
-    // json.image = json.image.replace("ipfs://", "https://nftstorage.link/ipfs/");
+      json.image = json.image.replace("ipfs://", "https://ipfs.io/ipfs/");
 
-    // j = json;
-    j.image = (vercelURL() || "http://localhost:3000") + "/art/" + i + ".png";
+      j = json;
+    } else {
+      j.name = "#" + i;
+      j.image = (vercelURL() || "http://localhost:3000") + "/art/" + i + ".png";
+    }
+
     jsons.push(j);
   }
 

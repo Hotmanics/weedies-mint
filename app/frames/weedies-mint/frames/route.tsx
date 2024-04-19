@@ -13,14 +13,16 @@ const handleRequest = frames(async (ctx) => {
 
   const jsons = await getNftMetadatas(
     Number(ctx.state.startMintCount) + 1,
-    Number(ctx.state.startMintCount) + 1
+    Number(ctx.state.startMintCount) + 1,
+    true
   );
 
   let jsonComponents = jsons.map((json: any, index: number) => {
     return (
       <div key={index} tw="flex flex-col justify-center items-center">
-        <img src={json.image} tw="w-[720px] h-[720px]" />
-        <p tw="text-center">{json.name}</p>
+        <img src={json.image} tw="w-[720px] h-[720px] m-10" />
+        <p tw="text-center text-8xl">{json.name}</p>
+        {/* 
         <div tw="flex flex-wrap items-center justify-center">
           {json.attributes.map((attribute: any, index: number) => {
             return (
@@ -35,7 +37,7 @@ const handleRequest = frames(async (ctx) => {
               </div>
             );
           })}
-        </div>
+        </div> */}
       </div>
     );
   });

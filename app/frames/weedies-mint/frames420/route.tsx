@@ -17,19 +17,23 @@ const handleRequest = frames(async (ctx) => {
 
   const jsons = await getNftMetadatas(
     Number(ctx.state.startMintCount) + 1,
-    Number(ctx.state.startMintCount) + 420,
+    Number(ctx.state.startMintCount) + 20,
     true
   );
 
   let jsonComponents = jsons.map((json: any, index: number) => {
     return (
       <div key={index} tw="flex flex-col justify-center items-center m-1">
-        <img src={json.image} tw="w-[52px] h-[52px]" />
+        <img src={json.image} tw="w-[190px] h-[190px]" />
       </div>
     );
   });
 
-  return getMintPageRoute(theHash, jsonComponents);
+  return getMintPageRoute(
+    theHash,
+    jsonComponents,
+    "...and 400 more unique weedies!"
+  );
 });
 
 export const GET = handleRequest;
